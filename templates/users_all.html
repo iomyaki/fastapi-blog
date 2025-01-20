@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            max-width: 900px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        td.center {
+            text-align: center;
+        }
+
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .no-data {
+            color: #777;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .back-link a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список пользователей</h1>
+
+    {% if users %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Никнейм</th>
+                    <th>Роль</th>
+                    <th>Дата регистрации</th>
+                    <th>Кол-во постов</th>
+                    <th>Дата последнего поста</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="/api/users/{{ user.id }}">{{ user.username }}</a></td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td class="center">{{ user.post_count }}</td>
+                        <td>
+                            {% if user.recent_post_at %}
+                                {{ user.recent_post_at.strftime('%Y-%m-%d') }}
+                            {% else %}
+                                <span class="no-data">н. д.</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Пользователей не найдено.</p>
+    {% endif %}
+
+    <div class="back-link">
+        <a href="/api/blog">На главную</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пользователь {{ user.username }}</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            text-align: center;
+        }
+
+        .profile-info {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .new-post-link {
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .new-post-link a {
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .new-post-link a:hover {
+            background-color: #357ab7;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-info">
+        <h1>Профиль пользователя {{ user.username }}</h1>
+        <p>Дата регистрации: {{ user.created_at.strftime('%Y-%m-%d') }}</p>
+
+        {% if owner %}
+            <div class="new-post-link">
+                <h3><a href="/api/blog/create">Опубликовать новый пост...</a></h3>
+            </div>
+        {% endif %}
+    </div>
+
+    <h2>Публикации:</h2>
+
+    {% if posts %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Дата публикации</th>
+                    <th>Превью</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td><a href="/api/blog/{{ post.id }}">{{ post.title }}</a></td>
+                        <td>{{ post.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td>{{ post.body[:60] }}{% if post.body|length > 60 %}...{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Постов не найдено.</p>
+    {% endif %}
+
+    <br>
+    <a href="/api/blog">На главную</a>
+</body>
+</html>
