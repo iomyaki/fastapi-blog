@@ -8,6 +8,9 @@
 • модели данных — Pydantic;  
 • аутентификация — базовая, через куки и bcrypt.
 
+## Видеодемонстрация
+[![Watch the video](https://raw.githubusercontent.com/iomyaki/fastapi-blog/main/thumbnail.png)](https://raw.githubusercontent.com/iomyaki/fastapi-blog/main/demonstration.mp4)
+
 ## Описание проекта
 Проект представляет собой блог с веб-интерфейсом, в котором пользователи могут просматривать публикации, а зарегистрировавшись, создавать их сами.
 
